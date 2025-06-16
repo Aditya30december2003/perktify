@@ -1,0 +1,7 @@
+node_modules/
+tests/
+*.log
+.vscode/
+.next/
+.env
+*.md
