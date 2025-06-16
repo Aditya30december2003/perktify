@@ -1,3 +1,6 @@
+export const config = {
+  runtime: 'nodejs',
+};
 import {
   createAdminClient,
   createLoyalityRewardClient,
