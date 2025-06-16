@@ -42,3 +42,20 @@ next-env.d.ts
 /node_modules
 /.next
 /build
+node_modules/
+.next/
+.env*
+dist/
+build/
+*.log
+.DS_Store
+
+# Large assets
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+# But allow small icons
+!favicon.ico
+!logo.png

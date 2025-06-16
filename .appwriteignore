@@ -1,7 +1,9 @@
 node_modules/
-tests/
-*.log
-.vscode/
 .next/
-.env
-*.md
+.git/
+.env*
+dist/
+build/
+*.log
+.DS_Store
+public/build/
