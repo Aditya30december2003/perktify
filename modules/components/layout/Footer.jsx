@@ -152,9 +152,12 @@
 
 // export default Footer;
 
+'use client'
 import React from "react";
+import { useTheme } from '@/app/contexts/ThemeContext';
 
 const Footer = ({ footerData }) => {
+  const { isDarkMode } = useTheme();
   const {
     footerPara,
     address,
@@ -169,32 +172,44 @@ const Footer = ({ footerData }) => {
   } = footerData;
 
   return (
-    <footer className="bg-black text-gray-300 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+    <footer className={`pt-16 pb-8 px-4 sm:px-6 lg:px-8 ${
+      isDarkMode ? 'bg-black text-gray-300' : 'bg-white text-gray-700'
+    }`}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
           {/* Legals Section */}
           <div className="mb-8">
-            <a href='/legals' className="text-blue-400 text-lg font-semibold mb-4 tracking-wider cursor-pointer">
+            <a href='/legals' className={`text-lg font-semibold mb-4 tracking-wider cursor-pointer ${
+              isDarkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}>
               Legals
             </a>
             <ul className="space-y-2">
               <li>
-                <a href="/legals/privacy" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                <a href="/legals/privacy" className={`hover:text-blue-500 transition-colors duration-200 text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="/legals/cookies" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                <a href="/legals/cookies" className={`hover:text-blue-500 transition-colors duration-200 text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Cookie Policy
                 </a>
               </li>
               <li>
-                <a href="/legals/use" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                <a href="/legals/use" className={`hover:text-blue-500 transition-colors duration-200 text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Terms of use
                 </a>
               </li>
               <li>
-                <a href="/legals/terms" className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                <a href="/legals/terms" className={`hover:text-blue-500 transition-colors duration-200 text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Terms & conditions
                 </a>
               </li>
@@ -203,21 +218,29 @@ const Footer = ({ footerData }) => {
 
           {/* Connect Section */}
           <div className="mb-8">
-            <h3 className="text-blue-400 text-lg font-semibold mb-4 tracking-wider">
+            <h3 className={`text-lg font-semibold mb-4 tracking-wider ${
+              isDarkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}>
               Let's Connect
             </h3>
             <ul className="space-y-2">
               <li>
-                <a href={`mailto:${infoMail}`} className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                <a href={`mailto:${infoMail}`} className={`hover:text-blue-500 transition-colors duration-200 text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   {infoMail || "Info Email"}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${salesMail}`} className="text-gray-400 hover:text-blue-400 transition-colors duration-200 text-sm">
+                <a href={`mailto:${salesMail}`} className={`hover:text-blue-500 transition-colors duration-200 text-sm ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   {salesMail || "Sales Email"}
                 </a>
               </li>
-              <li className="text-gray-400 text-sm">
+              <li className={`text-sm ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 {phone || "Phone Number"}
               </li>
             </ul>
@@ -225,61 +248,89 @@ const Footer = ({ footerData }) => {
 
           {/* Location Section */}
           <div className="mb-8">
-            <h3 className="text-blue-400 text-lg font-semibold mb-4 tracking-wider">
+            <h3 className={`text-lg font-semibold mb-4 tracking-wider ${
+              isDarkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}>
               Where to Find Us
             </h3>
-            <p className="text-gray-400 text-sm mb-2">City of London</p>
-            <p className="text-gray-400 text-sm">{address}</p>
+            <p className={`text-sm mb-2 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>City of London</p>
+            <p className={`text-sm ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>{address}</p>
           </div>
 
           {/* Social Media Section */}
           <div className="mb-8">
-            <h3 className="text-blue-400 text-lg font-semibold mb-4 tracking-wider">
+            <h3 className={`text-lg font-semibold mb-4 tracking-wider ${
+              isDarkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}>
               Get In Touch
             </h3>
             <div className="flex space-x-4 mb-4">
               {facebook && (
-                <a href={facebook} className="text-gray-400 hover:text-blue-400">
+                <a href={facebook} className={`hover:text-blue-500 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <i className="fab fa-facebook-f text-lg"></i>
                 </a>
               )}
               {linkedin && (
-                <a href={linkedin} className="text-gray-400 hover:text-blue-400">
+                <a href={linkedin} className={`hover:text-blue-500 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <i className="fab fa-linkedin-in text-lg"></i>
                 </a>
               )}
               {twitter && (
-                <a href={twitter} className="text-gray-400 hover:text-blue-400">
+                <a href={twitter} className={`hover:text-blue-500 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <i className="fab fa-twitter text-lg"></i>
                 </a>
               )}
               {instagram && (
-                <a href={instagram} className="text-gray-400 hover:text-blue-400">
+                <a href={instagram} className={`hover:text-blue-500 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <i className="fab fa-instagram text-lg"></i>
                 </a>
               )}
             </div>
-            <p className="text-gray-400 text-sm mb-1">Phone No: {phone}</p>
-            <p className="text-gray-400 text-sm">Email: {infoMail}</p>
+            <p className={`text-sm mb-1 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>Phone No: {phone}</p>
+            <p className={`text-sm ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>Email: {infoMail}</p>
           </div>
 
           {/* Logo Section */}
           <div className="">
-            <div className="bg-blue-700 w-full rounded-full">
+            <div className={`w-full rounded-full ${
+              isDarkMode ? 'bg-blue-700' : 'bg-blue-600'
+            }`}>
               <img
                 src="/logo.png"
-                className="p-12 "
+                className="p-12"
                 alt="Logo"
               />
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8">
+        <div className={`border-t pt-8 ${
+          isDarkMode ? 'border-gray-800' : 'border-gray-200'
+        }`}>
           <div className="text-center">
-            <p className="text-gray-400 text-sm">
+            <p className={`text-sm ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>
               {`©${new Date().getFullYear()} - Designed by `}
-              <a href="https://techistlab.co.uk" className="text-blue-400 hover:underline">
+              <a href="https://techistlab.co.uk" className={`hover:underline ${
+                isDarkMode ? 'text-blue-400' : 'text-blue-600'
+              }`}>
                 {bottomText}
               </a>
             </p>

@@ -34,8 +34,10 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
+import { useTheme } from '@/app/contexts/ThemeContext';
 
 const KeyFeatures = ({ headData, cardData }) => {
+  const { isDarkMode } = useTheme();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -88,7 +90,9 @@ const KeyFeatures = ({ headData, cardData }) => {
   };
 
   return (
-    <section id="features" className="bg-black py-32 w-full overflow-hidden">
+    <section id="features" className={`py-32 w-full overflow-hidden ${
+      isDarkMode ? 'bg-black' : 'bg-white'
+    }`}>
       <div className="max-w-8xl mx-auto px-6 lg:px-12 xl:px-24">
         {/* Header Section */}
         <motion.div
@@ -98,10 +102,14 @@ const KeyFeatures = ({ headData, cardData }) => {
           variants={container}
           className="text-center mb-28"
         >
-          <motion.span variants={item} className="text-[#6b8cff] text-xs uppercase tracking-[0.3em] block mb-6">
+          <motion.span variants={item} className={`text-xs uppercase tracking-[0.3em] block mb-6 ${
+            isDarkMode ? 'text-blue-400' : 'text-blue-600'
+          }`}>
             {headData?.subTitle || ""}
           </motion.span>
-          <motion.h2 variants={item} className="text-white text-5xl md:text-6xl font-medium tracking-tight leading-[1.15]">
+          <motion.h2 variants={item} className={`text-5xl md:text-6xl font-medium tracking-tight leading-[1.15] ${
+            isDarkMode ? 'text-white' : 'text-blue-900'
+          }`}>
             {headData?.title || ""}
           </motion.h2>
         </motion.div>
@@ -118,15 +126,28 @@ const KeyFeatures = ({ headData, cardData }) => {
               whileHover={{ y: -10 }}
               className={`group relative ${index === 1 ? 'md:col-start-2 lg:col-start-auto' : ''}`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] to-[#0a0a0a] rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/20">
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
-                <div className="absolute inset-0 border border-[#1e3a8a]/30 group-hover:border-[#3b82f6]/50 rounded-2xl pointer-events-none transition-all duration-500"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className={`absolute inset-0 rounded-2xl overflow-hidden shadow-2xl ${
+                isDarkMode 
+                  ? 'bg-gradient-to-br from-blue-900/20 to-blue-900/10 shadow-blue-900/20' 
+                  : 'bg-gradient-to-br from-blue-50 to-white shadow-blue-200/50'
+              }`}>
+                <div className={`absolute inset-0 border rounded-2xl pointer-events-none transition-all duration-500 ${
+                  isDarkMode 
+                    ? 'border-blue-800/30 group-hover:border-blue-500/50' 
+                    : 'border-blue-200/50 group-hover:border-blue-400/70'
+                }`}></div>
+                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${
+                  isDarkMode ? 'from-blue-500' : 'from-blue-400'
+                } to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
               </div>
 
               <div className="relative h-full p-10 flex flex-col">
                 <div className="mb-10 flex justify-center">
-                  <div className="relative w-40 h-40 rounded-xl bg-[#111827] border border-[#1e3a8a]/30 group-hover:border-[#3b82f6]/50 transition-all duration-500 flex items-center justify-center overflow-hidden">
+                  <div className={`relative w-40 h-40 rounded-xl border transition-all duration-500 flex items-center justify-center overflow-hidden ${
+                    isDarkMode 
+                      ? 'bg-blue-900/10 border-blue-800/30 group-hover:border-blue-500/50' 
+                      : 'bg-white border-blue-200/50 group-hover:border-blue-400/70 shadow-sm'
+                  }`}>
                     <motion.img
                       src={card.icon}
                       alt="icon"
@@ -134,18 +155,34 @@ const KeyFeatures = ({ headData, cardData }) => {
                       whileHover={{ scale: 1.15 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className={`absolute inset-0 bg-gradient-to-br from-transparent via-transparent ${
+                      isDarkMode 
+                        ? 'to-blue-900/10' 
+                        : 'to-blue-100/30'
+                    } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
                   </div>
                 </div>
 
                 <div className="text-center">
-                  <div className="inline-block px-4 py-1 bg-[#1e3a8a]/20 text-[#93c5fd] text-xs uppercase tracking-wider rounded-full mb-4 border border-[#1e3a8a]/30 group-hover:border-[#3b82f6]/50 transition-colors duration-300">
+                  <div className={`inline-block px-4 py-1 text-xs uppercase tracking-wider rounded-full mb-4 border transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'bg-blue-900/20 text-blue-300 border-blue-800/30 group-hover:border-blue-500/50' 
+                      : 'bg-blue-100/50 text-blue-700 border-blue-200/50 group-hover:border-blue-400/70'
+                  }`}>
                     Coming soon
                   </div>
-                  <h3 className="text-2xl font-medium text-white mb-4 group-hover:text-[#bfdbfe] transition-colors duration-300">
+                  <h3 className={`text-2xl font-medium mb-4 transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'text-white group-hover:text-blue-300' 
+                      : 'text-blue-900 group-hover:text-blue-700'
+                  }`}>
                     {card.title}
                   </h3>
-                  <p className="text-[#93c5fd]/80 leading-relaxed group-hover:text-[#bfdbfe] transition-colors duration-300">
+                  <p className={`leading-relaxed transition-colors duration-300 ${
+                    isDarkMode 
+                      ? 'text-blue-300/80 group-hover:text-blue-200' 
+                      : 'text-blue-700/80 group-hover:text-blue-600'
+                  }`}>
                     {card.description}
                   </p>
                 </div>
@@ -153,7 +190,7 @@ const KeyFeatures = ({ headData, cardData }) => {
             </motion.div>
           ))}
 
-          {/* Bottom Row - 2 Centered Cards - Now responsive for mobile */}
+          {/* Bottom Row - 2 Centered Cards */}
           <div className="md:col-span-2 lg:col-span-3 flex flex-col md:flex-row justify-center gap-8 mt-8">
             {cardData?.slice(3, 5).map((card, index) => (
               <motion.div
@@ -164,15 +201,28 @@ const KeyFeatures = ({ headData, cardData }) => {
                 whileHover="hover"
                 className="group relative w-full md:w-1/2 lg:max-w-md"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] to-[#0a0a0a] rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/30">
-                  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
-                  <div className="absolute inset-0 border border-[#1e3a8a]/40 group-hover:border-[#3b82f6]/60 rounded-2xl pointer-events-none transition-all duration-500"></div>
-                  <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className={`absolute inset-0 rounded-2xl overflow-hidden shadow-2xl ${
+                  isDarkMode 
+                    ? 'bg-gradient-to-br from-blue-900/20 to-blue-900/10 shadow-blue-900/30' 
+                    : 'bg-gradient-to-br from-blue-50 to-white shadow-blue-200/70'
+                }`}>
+                  <div className={`absolute inset-0 border rounded-2xl pointer-events-none transition-all duration-500 ${
+                    isDarkMode 
+                      ? 'border-blue-800/40 group-hover:border-blue-500/60' 
+                      : 'border-blue-200/60 group-hover:border-blue-400/80'
+                  }`}></div>
+                  <div className={`absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r ${
+                    isDarkMode ? 'from-blue-400 to-blue-600' : 'from-blue-400 to-blue-600'
+                  } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
                 </div>
 
                 <div className="relative h-full p-8 md:p-10 flex flex-col">
                   <div className="mb-6 md:mb-10 flex justify-center">
-                    <div className="relative w-32 h-32 md:w-44 md:h-44 rounded-xl bg-[#111827] border border-[#1e3a8a]/40 group-hover:border-[#3b82f6]/60 transition-all duration-500 flex items-center justify-center overflow-hidden">
+                    <div className={`relative w-32 h-32 md:w-44 md:h-44 rounded-xl border transition-all duration-500 flex items-center justify-center overflow-hidden ${
+                      isDarkMode 
+                        ? 'bg-blue-900/10 border-blue-800/40 group-hover:border-blue-500/60' 
+                        : 'bg-white border-blue-200/60 group-hover:border-blue-400/80 shadow-sm'
+                    }`}>
                       <motion.img
                         src={card.icon}
                         alt="icon"
@@ -180,18 +230,34 @@ const KeyFeatures = ({ headData, cardData }) => {
                         whileHover={{ scale: 1.2 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className={`absolute inset-0 bg-gradient-to-br from-transparent via-transparent ${
+                        isDarkMode 
+                          ? 'to-blue-900/20' 
+                          : 'to-blue-100/40'
+                      } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
                     </div>
                   </div>
 
                   <div className="text-center">
-                    <div className="inline-block px-4 py-1.5 bg-[#1e3a8a]/30 text-[#93c5fd] text-xs uppercase tracking-wider rounded-full mb-4 border border-[#1e3a8a]/40 group-hover:border-[#3b82f6]/60 transition-colors duration-300">
+                    <div className={`inline-block px-4 py-1.5 text-xs uppercase tracking-wider rounded-full mb-4 border transition-colors duration-300 ${
+                      isDarkMode 
+                        ? 'bg-blue-900/30 text-blue-300 border-blue-800/40 group-hover:border-blue-500/60' 
+                        : 'bg-blue-100/60 text-blue-700 border-blue-200/60 group-hover:border-blue-400/80'
+                    }`}>
                       Coming soon
                     </div>
-                    <h3 className="text-2xl font-medium text-white mb-4 group-hover:text-[#bfdbfe] transition-colors duration-300">
+                    <h3 className={`text-2xl font-medium mb-4 transition-colors duration-300 ${
+                      isDarkMode 
+                        ? 'text-white group-hover:text-blue-300' 
+                        : 'text-blue-900 group-hover:text-blue-700'
+                    }`}>
                       {card.title}
                     </h3>
-                    <p className="text-[#93c5fd]/80 leading-relaxed group-hover:text-[#bfdbfe] transition-colors duration-300">
+                    <p className={`leading-relaxed transition-colors duration-300 ${
+                      isDarkMode 
+                        ? 'text-blue-300/80 group-hover:text-blue-200' 
+                        : 'text-blue-700/80 group-hover:text-blue-600'
+                    }`}>
                       {card.description}
                     </p>
                   </div>

@@ -331,22 +331,24 @@
 // export default HeroSection
 
 "use client"
+import { useTheme } from '@/app/contexts/ThemeContext';
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import * as THREE from "three"
 import { Bounded } from "./Bounded"
 
 const HeroSection = ({ heroData }) => {
-  const { title, tagLines } = heroData
+  const { isDarkMode } = useTheme();
   const containerRef = useRef(null)
   const titleRef = useRef(null)
   const taglineRef = useRef(null)
   const buttonsRef = useRef(null)
   const threeContainerRef = useRef(null)
   const floatingElementsRef = useRef(null)
+  const { title, tagLines } = heroData
 
   useEffect(() => {
-    // Three.js 3D Grid Setup
+    // Three.js 3D Grid Setup (unchanged)
     let scene, camera, renderer, gridGroup1, gridGroup2, animationId
 
     const initThreeJS = () => {
@@ -360,16 +362,15 @@ const HeroSection = ({ heroData }) => {
       renderer.setClearColor(0x000000, 0)
       threeContainerRef.current.appendChild(renderer.domElement)
 
-      // Create 3D Grid
+      // Create 3D Grid (keeping original blue color)
       const createGrid = () => {
         const createSingleGrid = () => {
           const grid = new THREE.Group()
-          
           const gridSize = 50
           const gridDivisions = 100
-          const gridColor = new THREE.Color(0x3B82F6)
+          const gridColor = new THREE.Color(0x3B82F6) // Keeping original blue color
           
-          // Create horizontal lines
+          // Horizontal lines
           for (let i = 0; i <= gridDivisions; i++) {
             const geometry = new THREE.BufferGeometry()
             const positions = new Float32Array([
@@ -377,18 +378,16 @@ const HeroSection = ({ heroData }) => {
               gridSize, 0, -gridSize + (i * (gridSize * 2) / gridDivisions)
             ])
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-            
             const material = new THREE.LineBasicMaterial({ 
               color: gridColor,
               opacity: 0.3,
               transparent: true
             })
-            
             const line = new THREE.Line(geometry, material)
             grid.add(line)
           }
           
-          // Create vertical lines  
+          // Vertical lines  
           for (let i = 0; i <= gridDivisions; i++) {
             const geometry = new THREE.BufferGeometry()
             const positions = new Float32Array([
@@ -396,29 +395,23 @@ const HeroSection = ({ heroData }) => {
               -gridSize + (i * (gridSize * 2) / gridDivisions), 0, gridSize
             ])
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-            
             const material = new THREE.LineBasicMaterial({ 
               color: gridColor,
               opacity: 0.3,
               transparent: true
             })
-            
             const line = new THREE.Line(geometry, material)
             grid.add(line)
           }
           
-          // Position and rotate the grid
           grid.position.set(0, -10, -20)
           grid.rotation.x = -Math.PI / 3
           return grid
         }
 
-        // Create two identical grids for seamless looping
         gridGroup1 = createSingleGrid()
         gridGroup2 = createSingleGrid()
-        
-        // Position the second grid behind the first one
-        gridGroup2.position.z = -120 // Position it 100 units behind
+        gridGroup2.position.z = -120
         
         scene.add(gridGroup1)
         scene.add(gridGroup2)
@@ -426,30 +419,19 @@ const HeroSection = ({ heroData }) => {
 
       createGrid()
 
-      // Camera position
       camera.position.set(0, 10, 20)
       camera.lookAt(0, 0, 0)
 
-      // Animation loop with smooth continuous movement
       const animate = () => {
         animationId = requestAnimationFrame(animate)
+        const speed = 0.15
         
-        // Move both grids continuously toward the camera
         if (gridGroup1 && gridGroup2) {
-          const speed = 0.15
-          
           gridGroup1.position.z += speed
           gridGroup2.position.z += speed
           
-          // When the first grid passes the camera, reset it behind the second grid
-          if (gridGroup1.position.z > 80) {
-            gridGroup1.position.z = gridGroup2.position.z - 100
-          }
-          
-          // When the second grid passes the camera, reset it behind the first grid
-          if (gridGroup2.position.z > 80) {
-            gridGroup2.position.z = gridGroup1.position.z - 100
-          }
+          if (gridGroup1.position.z > 80) gridGroup1.position.z = gridGroup2.position.z - 100
+          if (gridGroup2.position.z > 80) gridGroup2.position.z = gridGroup1.position.z - 100
         }
         
         renderer.render(scene, camera)
@@ -457,22 +439,19 @@ const HeroSection = ({ heroData }) => {
       
       animate()
 
-      // Handle resize
       const handleResize = () => {
-        if (camera && renderer) {
-          camera.aspect = window.innerWidth / window.innerHeight
-          camera.updateProjectionMatrix()
-          renderer.setSize(window.innerWidth, window.innerHeight)
-        }
+        camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
+        renderer.setSize(window.innerWidth, window.innerHeight)
       }
       
       window.addEventListener('resize', handleResize)
       
       return () => {
         window.removeEventListener('resize', handleResize)
-        if (animationId) cancelAnimationFrame(animationId)
-        if (renderer && threeContainerRef.current?.contains(renderer.domElement)) {
-          threeContainerRef.current.removeChild(renderer.domElement)
+        cancelAnimationFrame(animationId)
+        if (renderer?.domElement) {
+          threeContainerRef.current?.removeChild(renderer.domElement)
           renderer.dispose()
         }
       }
@@ -480,9 +459,8 @@ const HeroSection = ({ heroData }) => {
 
     const cleanup = initThreeJS()
 
-    // GSAP Animations
+    // GSAP Animations (unchanged)
     const ctx = gsap.context(() => {
-      // Set initial states for fade-in effects only
       gsap.set([titleRef.current, taglineRef.current, buttonsRef.current], {
         opacity: 0,
         y: 30,
@@ -494,10 +472,8 @@ const HeroSection = ({ heroData }) => {
         y: 20,
       })
 
-      // Create timeline with subtle entrance
       const tl = gsap.timeline({ delay: 0.3 })
 
-      // Floating elements
       tl.to(".floating-element", {
         opacity: 1,
         scale: 1,
@@ -506,29 +482,25 @@ const HeroSection = ({ heroData }) => {
         stagger: 0.15,
         ease: "power2.out",
       })
-        // Title with elegant fade
-        .to(titleRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-        }, "-=1")
-        // Tagline
-        .to(taglineRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-        }, "-=0.8")
-        // Buttons
-        .to(buttonsRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-        }, "-=0.6")
+      .to(titleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power3.out",
+      }, "-=1")
+      .to(taglineRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out",
+      }, "-=0.8")
+      .to(buttonsRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out",
+      }, "-=0.6")
 
-      // Continuous floating animation for cards
       gsap.to(".floating-element", {
         y: "random(-15, 15)",
         rotation: "random(-3, 3)",
@@ -546,9 +518,9 @@ const HeroSection = ({ heroData }) => {
 
     return () => {
       ctx.revert()
-      if (cleanup) cleanup()
+      cleanup?.()
     }
-  }, [title])
+  }, [title, isDarkMode])
 
   return (
     <Bounded
@@ -556,176 +528,109 @@ const HeroSection = ({ heroData }) => {
       className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
       style={{ 
         zIndex: 10,
-        background: '#000000'
+        backgroundColor: isDarkMode ? '#000000' : '#ffffff',
       }}
     >
-      {/* Three.js 3D Grid Container */}
+      {/* Three.js 3D Grid Container (unchanged) */}
       <div 
         ref={threeContainerRef}
         className="absolute inset-0 pointer-events-none"
         style={{ zIndex: 1 }}
       />
 
-      {/* Floating 3D Elements */}
+      {/* Floating Elements (updated colors) */}
       <div ref={floatingElementsRef} className="absolute inset-0 pointer-events-none">
-        {/* Top left floating card */}
-        {/* <div 
-          className="floating-element absolute top-20 left-20"
-          style={{
-            transform: 'perspective(800px) rotateY(-15deg) rotateX(10deg)',
-          }}
-        >
-          <div className="w-28 h-20 bg-gradient-to-br from-blue-500/15 to-blue-600/25 backdrop-blur-sm border border-blue-400/20 rounded-xl shadow-2xl">
-            <div className="p-4">
-              <div className="w-5 h-5 bg-blue-400/40 rounded mb-3"></div>
-              <div className="space-y-2">
-                <div className="w-16 h-1 bg-blue-300/30 rounded"></div>
-                <div className="w-12 h-1 bg-blue-300/20 rounded"></div>
-                <div className="w-8 h-1 bg-blue-300/15 rounded"></div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Top right floating card */}
-        <div 
-          className="floating-element absolute top-32 right-24"
-          style={{
-            transform: 'perspective(800px) rotateY(20deg) rotateX(-5deg)',
-          }}
-        >
-          <div className="w-32 h-22 bg-gradient-to-br from-blue-600/20 to-blue-700/30 backdrop-blur-sm border border-blue-400/25 rounded-xl shadow-2xl">
+        {/* Top right card */}
+        <div className="floating-element absolute top-32 right-24" style={{ transform: 'perspective(800px) rotateY(20deg) rotateX(-5deg)' }}>
+          <div className={`w-32 h-22 backdrop-blur-sm border rounded-xl shadow-2xl ${
+            isDarkMode 
+              ? 'bg-gradient-to-br from-blue-600/20 to-blue-700/30 border-blue-400/25' 
+              : 'bg-gradient-to-br from-blue-100/50 to-blue-200/60 border-blue-400/25'
+          }`}>
             <div className="p-4">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-4 h-4 bg-blue-400/50 rounded"></div>
-                <div className="w-12 h-1.5 bg-blue-300/35 rounded"></div>
+                <div className={`w-4 h-4 rounded ${isDarkMode ? 'bg-blue-400/50' : 'bg-blue-400/50'}`}></div>
+                <div className={`w-12 h-1.5 rounded ${isDarkMode ? 'bg-blue-300/35' : 'bg-blue-300/35'}`}></div>
               </div>
               <div className="space-y-1.5">
-                <div className="w-20 h-1 bg-blue-300/30 rounded"></div>
-                <div className="w-16 h-1 bg-blue-300/25 rounded"></div>
-                <div className="w-10 h-1 bg-blue-300/20 rounded"></div>
+                <div className={`w-20 h-1 rounded ${isDarkMode ? 'bg-blue-300/30' : 'bg-blue-300/30'}`}></div>
+                <div className={`w-16 h-1 rounded ${isDarkMode ? 'bg-blue-300/25' : 'bg-blue-300/25'}`}></div>
+                <div className={`w-10 h-1 rounded ${isDarkMode ? 'bg-blue-300/20' : 'bg-blue-300/20'}`}></div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom left floating card */}
-        <div 
-          className="floating-element absolute bottom-32 left-32"
-          style={{
-            transform: 'perspective(800px) rotateY(10deg) rotateX(15deg)',
-          }}
-        >
-          <div className="w-24 h-18 bg-gradient-to-br from-blue-500/12 to-blue-600/22 backdrop-blur-sm border border-blue-400/30 rounded-lg shadow-2xl">
+        {/* Bottom left card */}
+        <div className="floating-element absolute bottom-32 left-32" style={{ transform: 'perspective(800px) rotateY(10deg) rotateX(15deg)' }}>
+          <div className={`w-24 h-18 backdrop-blur-sm border rounded-lg shadow-2xl ${
+            isDarkMode 
+              ? 'bg-gradient-to-br from-blue-500/12 to-blue-600/22 border-blue-400/30' 
+              : 'bg-gradient-to-br from-blue-100/40 to-blue-200/50 border-blue-400/30'
+          }`}>
             <div className="p-3">
-              <div className="w-4 h-4 bg-blue-400/45 rounded-full mb-2"></div>
+              <div className={`w-4 h-4 rounded-full mb-2 ${isDarkMode ? 'bg-blue-400/45' : 'bg-blue-400/45'}`}></div>
               <div className="space-y-1">
-                <div className="w-14 h-1 bg-blue-300/25 rounded"></div>
-                <div className="w-10 h-1 bg-blue-300/20 rounded"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom right floating card */}
-        <div 
-          className="floating-element absolute bottom-20 right-16"
-          style={{
-            transform: 'perspective(800px) rotateY(-25deg) rotateX(5deg)',
-          }}
-        >
-          <div className="w-30 h-20 bg-gradient-to-br from-blue-600/18 to-blue-700/28 backdrop-blur-sm border border-blue-400/25 rounded-xl shadow-2xl">
-            <div className="p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-5 h-5 bg-blue-400/50 rounded"></div>
-                <div className="w-10 h-1.5 bg-blue-300/30 rounded"></div>
-              </div>
-              <div className="space-y-1.5">
-                <div className="w-18 h-1 bg-blue-300/25 rounded"></div>
-                <div className="w-14 h-1 bg-blue-300/20 rounded"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Center floating element */}
-        <div 
-          className="floating-element absolute top-1/4 right-1/3"
-          style={{
-            transform: 'perspective(800px) rotateY(-8deg) rotateX(-8deg)',
-          }}
-        >
-          <div className="w-36 h-24 bg-gradient-to-br from-blue-500/10 to-blue-600/20 backdrop-blur-sm border border-blue-400/20 rounded-2xl shadow-2xl">
-            <div className="p-5">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-6 h-6 bg-blue-400/40 rounded"></div>
-                <div className="w-16 h-2 bg-blue-300/30 rounded"></div>
-              </div>
-              <div className="space-y-2">
-                <div className="w-24 h-1 bg-blue-300/25 rounded"></div>
-                <div className="w-20 h-1 bg-blue-300/20 rounded"></div>
-                <div className="w-14 h-1 bg-blue-300/15 rounded"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Additional smaller floating elements */}
-        <div 
-          className="floating-element absolute top-1/2 left-16"
-          style={{
-            transform: 'perspective(800px) rotateY(15deg) rotateX(-12deg)',
-          }}
-        >
-          <div className="w-20 h-16 bg-gradient-to-br from-blue-500/8 to-blue-600/18 backdrop-blur-sm border border-blue-400/25 rounded-lg shadow-xl">
-            <div className="p-3">
-              <div className="w-3 h-3 bg-blue-400/35 rounded-full mb-2"></div>
-              <div className="space-y-1">
-                <div className="w-10 h-1 bg-blue-300/20 rounded"></div>
-                <div className="w-7 h-1 bg-blue-300/15 rounded"></div>
+                <div className={`w-14 h-1 rounded ${isDarkMode ? 'bg-blue-300/25' : 'bg-blue-300/25'}`}></div>
+                <div className={`w-10 h-1 rounded ${isDarkMode ? 'bg-blue-300/20' : 'bg-blue-300/20'}`}></div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div ref={containerRef} className="relative container mx-auto px-4 py-12 text-white text-center pt-[10rem]" style={{ zIndex: 20 }}>
+      {/* Main Content (updated colors) */}
+      <div ref={containerRef} className="relative container mx-auto px-4 py-12 text-center pt-[10rem]" style={{ zIndex: 20 }}>
         <div className="max-w-5xl mx-auto space-y-12">
-          {/* Title - Clean and Stunning */}
           <h1
             ref={titleRef}
-            className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight bg-gradient-to-b from-white via-white to-gray-300 bg-clip-text text-transparent"
+            className={`text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight bg-clip-text text-transparent ${
+              isDarkMode 
+                ? 'bg-gradient-to-b from-white via-white to-gray-300' 
+                : 'bg-gradient-to-b from-blue-900 via-blue-800 to-blue-700'
+            }`}
             style={{
               fontFamily: "'Inter', 'SF Pro Display', -apple-system, sans-serif",
               fontWeight: 900,
               letterSpacing: "-0.03em",
-              textShadow: "0 0 40px rgba(255, 255, 255, 0.1)",
+              textShadow: isDarkMode ? "0 0 40px rgba(255, 255, 255, 0.1)" : "0 0 40px rgba(59, 130, 246, 0.1)",
             }}
           >
             {title}
           </h1>
 
-          {/* Tagline */}
           <div ref={taglineRef} className="max-w-3xl mx-auto">
-            <p className="text-xl sm:text-2xl lg:text-3xl opacity-70 font-light leading-relaxed text-gray-400">
-              {tagLines && tagLines.length > 0 ? tagLines[0] : "Transform your vision into reality with AI-powered innovation"}
+            <p className={`text-xl sm:text-2xl lg:text-3xl opacity-70 font-light leading-relaxed ${
+              isDarkMode ? 'text-gray-300' : 'text-blue-900/80'
+            }`}>
+              {tagLines?.[0] || "Transform your vision into reality with AI-powered innovation"}
             </p>
           </div>
 
-          {/* Buttons */}
           <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
             <button
               onClick={() => document.getElementById("buysubscription")?.scrollIntoView({ behavior: "smooth" })}
-              className="group relative bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold px-10 py-4 rounded-xl hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25"
+              className={`group relative font-semibold px-10 py-4 rounded-xl hover:scale-105 transition-all duration-300 shadow-2xl ${
+                isDarkMode
+                  ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-blue-500/25'
+                  : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-blue-500/25'
+              }`}
             >
               <span className="relative z-10">Get Perktify</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+              <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl ${
+                isDarkMode 
+                  ? 'bg-gradient-to-r from-blue-500 to-blue-600' 
+                  : 'bg-gradient-to-r from-blue-400 to-blue-500'
+              }`} />
             </button>
             
             <a
               href="https://app.perktify.com/login?demo=true"
-              className="group relative border-2 border-blue-500/40 backdrop-blur-sm text-white font-semibold px-10 py-4 rounded-xl hover:bg-blue-500/10 hover:border-blue-400 transition-all duration-300"
+              className={`group relative border-2 backdrop-blur-sm font-semibold px-10 py-4 rounded-xl transition-all duration-300 ${
+                isDarkMode
+                  ? 'border-blue-500/40 text-white hover:bg-blue-500/10 hover:border-blue-400'
+                  : 'border-blue-500/40 text-blue-800 hover:bg-blue-500/10 hover:border-blue-400'
+              }`}
             >
               <span className="relative z-10">View Demo</span>
             </a>
@@ -733,10 +638,12 @@ const HeroSection = ({ heroData }) => {
         </div>
       </div>
 
-      {/* Subtle bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none" style={{ zIndex: 5 }} />
+      {/* Bottom fade (updated) */}
+      <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t pointer-events-none ${
+        isDarkMode ? 'from-black' : 'from-white'
+      } to-transparent`} style={{ zIndex: 5 }} />
     </Bounded>
   )
 }
 
-export default HeroSection 
+export default HeroSection

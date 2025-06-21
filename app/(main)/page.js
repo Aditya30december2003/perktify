@@ -2,7 +2,7 @@ import { fetchBanner, fetchData } from "@/appwrite/data";
 import CalltoAction from "@/modules/components/CalltoAction";
 import FaqAccordians from "@/modules/components/FaqAccordians";
 import HeroSection from "@/modules/components/HeroSection";
-import Introdcution from "@/modules/components/Introdcution";
+import Introdcution from "@/modules/components/Introdcution"; 
 import VideoSection from "@/modules/components/IntroVideo";
 import KeyFeatures from "@/modules/components/KeyFeatures";
 import LatestBlogs from "@/modules/components/LatestBlogs";

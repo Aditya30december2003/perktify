@@ -1,15 +1,16 @@
-
-
 "use client"
 import { useState, useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import { gsap } from "gsap"
+import { useTheme } from "@/app/contexts/ThemeContext" // Adjust path as needed
+import ThemeToggleButton from "../ThemeToggle" // Adjust path as needed
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const headerRef = useRef(null)
+  const { isDarkMode, toggleTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +41,11 @@ const Header = () => {
     <nav
       ref={headerRef}
       className={`w-full fixed top-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/80 backdrop-blur-md border-b border-white/10" : "bg-transparent"
+        isScrolled 
+          ? isDarkMode 
+            ? "bg-black/80 backdrop-blur-md border-b border-white/10" 
+            : "bg-white/80 backdrop-blur-md border-b border-gray-200/50"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-6 lg:px-8">
@@ -49,7 +54,7 @@ const Header = () => {
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center">
               <img
-                src="/logowhite.png"
+                src={isDarkMode ? "/logowhite.png" : "/logoblack.png"}
                 alt="Logo"
                 className="h-10 lg:h-12 w-auto transition-opacity duration-200 hover:opacity-80"
               />
@@ -62,7 +67,11 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="px-4 py-2 text-[15px] font-medium text-gray-300 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5"
+                className={`px-4 py-2 text-[15px] font-medium transition-colors duration-200 rounded-lg ${
+                  isDarkMode
+                    ? 'text-gray-300 hover:text-white hover:bg-white/5'
+                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
+                }`}
               >
                 {item.name}
               </a>
@@ -71,13 +80,26 @@ const Header = () => {
 
           {/* Right side actions */}
           <div className="hidden lg:flex items-center space-x-4">
+            <ThemeToggleButton 
+              isDarkMode={isDarkMode} 
+              toggleTheme={toggleTheme}
+            />
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center space-x-3">
+            <ThemeToggleButton 
+              isDarkMode={isDarkMode} 
+              toggleTheme={toggleTheme}
+              className="w-10 h-10"
+            />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors duration-200"
+              className={`inline-flex items-center justify-center p-2 rounded-lg transition-colors duration-200 ${
+                isDarkMode
+                  ? 'text-gray-300 hover:text-white hover:bg-white/5'
+                  : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
+              }`}
               aria-label="Toggle menu"
             >
               <div className="w-6 h-6 relative">
@@ -107,19 +129,23 @@ const Header = () => {
             isMobileMenuOpen ? "max-h-80 opacity-100 visible" : "max-h-0 opacity-0 invisible overflow-hidden"
           }`}
         >
-          <div className="py-6 space-y-1 border-t border-white/10">
+          <div className={`py-6 space-y-1 border-t ${
+            isDarkMode ? 'border-white/10' : 'border-gray-200/50'
+          }`}>
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="block px-4 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors duration-200"
+                className={`block px-4 py-3 text-base font-medium rounded-lg transition-colors duration-200 ${
+                  isDarkMode
+                    ? 'text-gray-300 hover:text-white hover:bg-white/5'
+                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/50'
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.name}
               </a>
             ))}
-
-            
           </div>
         </div>
       </div>
