@@ -29,7 +29,7 @@ const page = async ({ params }) => {
           <h1 className="text-4xl font-bold text-red-400 mb-4">Blog Post Not Found</h1>
           <Link 
             href="/blogs"
-            className="text-blue-400 hover:text-blue-300 transition-colors duration-300"
+            className="text-blue-300 hover:text-blue-300 transition-colors duration-300"
           >
             Return to Blog
           </Link>
