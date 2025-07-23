@@ -96,7 +96,7 @@ const WhyChooseHead = ({ WhyHead }) => {
       }}>
         const quality = true;
       </div> */}
-      <div className="absolute top-32 right-20 font-mono text-xs opacity-45 animate-bounce" style={{
+      {/* <div className="absolute top-32 right-20 font-mono text-xs opacity-45 animate-bounce" style={{
         color: isDarkMode ? '#7dd3fc' : '#93c5fd'
       }}>
         service.excellence();
@@ -110,7 +110,7 @@ const WhyChooseHead = ({ WhyHead }) => {
         color: isDarkMode ? '#38bdf8' : '#60a5fa'
       }}>
         return bestChoice;
-      </div>
+      </div> */}
 
       {/* Decorative Dashboard Cards */}
       <div className="absolute top-12 left-12 hidden lg:block">

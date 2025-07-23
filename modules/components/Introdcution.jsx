@@ -34,7 +34,7 @@ const Introduction = ({ introData }) => {
       }}>
         {'</>'} function() {'{'}return innovation;{'}'}
       </div> */}
-      <div className="absolute top-40 right-20 font-mono text-xs opacity-60 animate-bounce" style={{
+      {/* <div className="absolute top-40 right-20 font-mono text-xs opacity-60 animate-bounce" style={{
         color: isDarkMode ? '#7dd3fc' : '#1d4ed8'
       }}>
         console.log("Building the future...");
@@ -88,7 +88,7 @@ const Introduction = ({ introData }) => {
         color: isDarkMode ? '#2563eb' : '#1e3a8a'
       }}>
         export default Future;
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         {/* Main Content Row */}

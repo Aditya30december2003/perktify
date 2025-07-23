@@ -56,7 +56,7 @@ const SmoothCarousel = ({ whyCards, WhyHead }) => {
       }}>
         features.map(f {'=>'} benefit)
       </div> */}
-      <div className="absolute top-40 right-20 font-mono text-xs opacity-45 animate-bounce" style={{
+      {/* <div className="absolute top-40 right-20 font-mono text-xs opacity-45 animate-bounce" style={{
         color: isDarkMode ? '#7dd3fc' : '#93c5fd'
       }}>
         stack.push(innovation);
@@ -75,7 +75,7 @@ const SmoothCarousel = ({ whyCards, WhyHead }) => {
         color: isDarkMode ? '#3b82f6' : '#2563eb'
       }}>
         {'{'}sticky: smooth{'}'}
-      </div>
+      </div> */}
 
       <div className="max-w-screen-xl mx-auto px-6 pt-0 mb-24 relative z-10">
         
