@@ -29,11 +29,11 @@ const Introduction = ({ introData }) => {
       </div>
 
       {/* Floating Code Elements */}
-      <div className="absolute top-10 left-10 font-mono text-xs opacity-60 animate-float" style={{
+      {/* <div className="absolute top-10 left-10 font-mono text-xs opacity-60 animate-float" style={{
         color: isDarkMode ? '#93c5fd' : '#1e40af'
       }}>
         {'</>'} function() {'{'}return innovation;{'}'}
-      </div>
+      </div> */}
       <div className="absolute top-40 right-20 font-mono text-xs opacity-60 animate-bounce" style={{
         color: isDarkMode ? '#7dd3fc' : '#1d4ed8'
       }}>

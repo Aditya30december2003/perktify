@@ -51,11 +51,11 @@ const SmoothCarousel = ({ whyCards, WhyHead }) => {
       </div>
 
       {/* Floating Code Elements */}
-      <div className="absolute top-20 left-16 font-mono text-xs opacity-50 animate-float" style={{
+      {/* <div className="absolute top-20 left-16 font-mono text-xs opacity-50 animate-float" style={{
         color: isDarkMode ? '#93c5fd' : '#bfdbfe'
       }}>
         features.map(f {'=>'} benefit)
-      </div>
+      </div> */}
       <div className="absolute top-40 right-20 font-mono text-xs opacity-45 animate-bounce" style={{
         color: isDarkMode ? '#7dd3fc' : '#93c5fd'
       }}>
