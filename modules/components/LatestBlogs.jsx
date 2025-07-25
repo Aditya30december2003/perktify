@@ -168,11 +168,11 @@ const LatestBlogs = ({ BlogCards }) => {
       />
 
       {/* Floating Geometric Shapes */}
-      <div className="absolute top-10 left-10 floating-shape">
+      {/* <div className="absolute top-10 left-10 floating-shape">
         <div className={`w-20 h-20 border-2 rotate-45 ${
           isDarkMode ? 'border-blue-500 opacity-30' : 'border-blue-300 opacity-20'
         }`}></div>
-      </div>
+      </div> */}
       <div className="absolute top-32 right-20 floating-shape">
         <div className={`w-16 h-16 rounded-full ${
           isDarkMode 

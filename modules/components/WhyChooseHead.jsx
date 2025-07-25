@@ -113,7 +113,7 @@ const WhyChooseHead = ({ WhyHead }) => {
       </div> */}
 
       {/* Decorative Dashboard Cards */}
-      <div className="absolute top-12 left-12 hidden lg:block">
+      {/* <div className="absolute top-12 left-12 hidden lg:block">
         <div className={`w-72 h-40 backdrop-blur-sm border rounded-xl p-4 transform rotate-3 hover:rotate-0 transition-transform duration-500 ${
           isDarkMode 
             ? 'bg-black/40 border-white/10' 
@@ -139,9 +139,9 @@ const WhyChooseHead = ({ WhyHead }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="absolute bottom-12 right-12 hidden lg:block">
+      {/* <div className="absolute bottom-12 right-12 hidden lg:block">
         <div className={`w-64 h-36 backdrop-blur-sm border rounded-xl p-4 transform -rotate-2 hover:rotate-0 transition-transform duration-500 ${
           isDarkMode 
             ? 'bg-black/40 border-white/10' 
@@ -160,7 +160,7 @@ const WhyChooseHead = ({ WhyHead }) => {
             isDarkMode ? 'text-gray-400' : 'text-blue-200'
           }`}>Happy Customers</div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
@@ -263,11 +263,11 @@ const WhyChooseHead = ({ WhyHead }) => {
       </div>
 
       {/* Floating geometric shapes */}
-      <div className={`absolute top-1/4 left-8 w-20 h-20 rounded-full animate-spin-slow hidden lg:block ${
+      {/* <div className={`absolute top-1/4 left-8 w-20 h-20 rounded-full animate-spin-slow hidden lg:block ${
         isDarkMode 
           ? 'border-2 border-blue-400/20' 
           : 'border-2 border-blue-300/30'
-      }`}></div>
+      }`}></div> */}
       <div className={`absolute bottom-1/4 right-8 w-16 h-16 rounded-lg animate-pulse hidden lg:block ${
         isDarkMode 
           ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/20' 
