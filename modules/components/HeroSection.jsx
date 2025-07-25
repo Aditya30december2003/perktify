@@ -541,10 +541,10 @@ const HeroSection = ({ heroData }) => {
       {/* Floating Elements (updated colors) */}
       <div ref={floatingElementsRef} className="absolute inset-0 pointer-events-none">
         {/* Top right card */}
-        <div className="floating-element absolute top-32 right-24" style={{ transform: 'perspective(800px) rotateY(20deg) rotateX(-5deg)' }}>
+        {/* <div className="floating-element absolute top-32 right-24" style={{ transform: 'perspective(800px) rotateY(20deg) rotateX(-5deg)' }}>
           <div className={`w-32 h-22 backdrop-blur-sm border rounded-xl shadow-2xl ${
             isDarkMode 
-              ? 'bg-gradient-to-br from-blue-600/20 to-blue-700/30 border-blue-400/25' 
+              ? 'bg-gradient-to-br from-red-600/20 to-blue-700/30 border-blue-400/25' 
               : 'bg-gradient-to-br from-blue-100/50 to-blue-200/60 border-blue-400/25'
           }`}>
             <div className="p-4">
@@ -559,10 +559,10 @@ const HeroSection = ({ heroData }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Bottom left card */}
-        <div className="floating-element absolute bottom-32 left-32" style={{ transform: 'perspective(800px) rotateY(10deg) rotateX(15deg)' }}>
+        {/* <div className="floating-element absolute bottom-32 left-32" style={{ transform: 'perspective(800px) rotateY(10deg) rotateX(15deg)' }}>
           <div className={`w-24 h-18 backdrop-blur-sm border rounded-lg shadow-2xl ${
             isDarkMode 
               ? 'bg-gradient-to-br from-blue-500/12 to-blue-600/22 border-blue-400/30' 
@@ -576,7 +576,7 @@ const HeroSection = ({ heroData }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Main Content (updated colors) */}
