@@ -6,7 +6,7 @@ const BlogPage = async () => {
   const data = await fetchData();
   const blogHead = data?.blogPageData ?? {};
   const BlogCards = data?.blogCardsData ?? [];
-  const { heading, paragraph, coverImage } = blogHead
+  const { heading, paragraph, coverImage } = blogHead;
 
   return (
     <section 
